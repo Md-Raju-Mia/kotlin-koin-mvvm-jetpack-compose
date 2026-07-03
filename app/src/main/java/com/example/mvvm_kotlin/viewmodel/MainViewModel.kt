@@ -7,9 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.mvvm_kotlin.data.local.PostEntity
 import com.example.mvvm_kotlin.model.Post
 import com.example.mvvm_kotlin.repository.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val repository: MainRepository) : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
     private val _post = MutableLiveData<Post?>()
     val post: LiveData<Post?> get() = _post

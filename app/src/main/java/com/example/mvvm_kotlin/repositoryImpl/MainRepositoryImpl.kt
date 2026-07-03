@@ -1,26 +1,26 @@
 package com.example.mvvm_kotlin.repositoryImpl
 
 import android.content.Context
-import com.example.mvvm_kotlin.api.RetrofitClient
-import com.example.mvvm_kotlin.constant.Config
+import com.example.mvvm_kotlin.api.ApiService
 import com.example.mvvm_kotlin.data.local.PostDao
 import com.example.mvvm_kotlin.data.local.PostEntity
 import com.example.mvvm_kotlin.model.Post
 import com.example.mvvm_kotlin.repository.MainRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Response
+import javax.inject.Inject
 
-class MainRepositoryImpl(
-    private val context: Context,
-    private val postDao: PostDao
+class MainRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val postDao: PostDao,
+    private val apiService: ApiService
 ) : MainRepository {
     override suspend fun getSamplePost(): Response<Post> {
-        // Now fetching the API instance using the URL from Config, 
-        // matching the Mechanics project's dynamic URL handling.
-        return RetrofitClient.getInstance(Config.BASE_URL_POSTS).getSamplePost()
+        return apiService.getSamplePost()
     }
 
     override suspend fun createPost(post: Post): Response<Post> {
-        return RetrofitClient.getInstance(Config.BASE_URL_POSTS).createPost(post)
+        return apiService.createPost(post)
     }
 
     override suspend fun savePostLocal(post: PostEntity) {
